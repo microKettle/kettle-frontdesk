@@ -1,0 +1,10 @@
+flask:
+  build: .
+  ports:
+    - "5000:5000"
+  volumes:
+    - .:/opt/docker
+  environment:
+    - FLASK_APP=hello.py
+    - FLASK_DEBUG=1
+  entrypoint: /root/startDockerDev.sh

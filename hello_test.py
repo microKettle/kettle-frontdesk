@@ -3,7 +3,7 @@ from hello import app
 import unittest
 
 
-class FlaskrTestCase(unittest.TestCase):
+class HelloTestCase(unittest.TestCase):
 
     def setUp(self):
         app.config['TESTING'] = True
@@ -11,7 +11,7 @@ class FlaskrTestCase(unittest.TestCase):
 
 
 
-    def test_empty_db(self):
+    def getRoot(self):
         rv = self.app.get('/')
         assert b'Hello' in rv.data
 
