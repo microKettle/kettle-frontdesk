@@ -11,7 +11,7 @@ class HelloTestCase(unittest.TestCase):
 
 
 
-    def getRoot(self):
+    def testRoot(self):
         rv = self.app.get('/')
         assert b'Hello' in rv.data
 
