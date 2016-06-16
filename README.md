@@ -1,7 +1,10 @@
 ### Setup dev env:
 
 ```sh
-$ docker-compose up
+$ virtualenv -p python3 venv
+$ source venv/bin/activate
+$ pip install -r requirements.txt 
 ```
 
-Open http://127.0.0.1:5000
+
+
