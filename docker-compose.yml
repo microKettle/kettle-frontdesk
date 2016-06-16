@@ -5,6 +5,6 @@ flask:
   volumes:
     - .:/opt/docker
   environment:
-    - FLASK_APP=hello.py
+    - FLASK_APP=app/app.py
     - FLASK_DEBUG=1
   entrypoint: /root/startDockerDev.sh
