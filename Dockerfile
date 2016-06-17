@@ -1,7 +1,6 @@
-FROM debian:8
-RUN apt-get update -y && apt-get install python-pip python-dev build-essential -y
-RUN mkdir -p /opt/docker
-ADD resources/startDockerDev.sh /root
-WORKDIR /opt/docker
+FROM python:3.5
+ADD . /opt/kettle
+RUN cd /opt/kettle && pip install -r requirements.txt
+WORKDIR /opt/kettle
 EXPOSE 5000
-ENTRYPOINT ["/bin/bash"] 
+CMD ["flask","run","--host=0.0.0.0"] 
