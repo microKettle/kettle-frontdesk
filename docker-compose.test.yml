@@ -7,4 +7,4 @@ sut:
   links:
     - mongodb
 mongodb:
-  image: mongo/3.3 
+  image: mongo:3.3 
