@@ -10,7 +10,8 @@ MONGODB_SETTINGS = {
 }
 
 FRONTDESK_SETTINGS = {
-	'URL_API': 'https://frontdeskhq.com/api/v2',
+	'URL_AUTH': 'https://frontdeskhq.com',
+	'URL_API': 'https://lutece.frontdeskhq.com/api/v2',
 	'CLIENT_ID': 'nMaOVbUKTKfYJXZva8ix2bpbRtDJMUIzT9BEwZXs',
 	'CLIENT_SECRET': 'p631IGbxHS8Phbcpo0LYyTRemNGrTlHSHx2pIU4C',
 	'REDIRECT_URL': 'http://kettle-1.kettle.50023ace.cont.dockerapp.io'
