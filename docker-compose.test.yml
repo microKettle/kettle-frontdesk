@@ -7,5 +7,4 @@ sut:
   links:
     - mongodb
 mongodb:
-  image: tutum/mongodb
-    
+  image: mongo/3.3 
