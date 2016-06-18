@@ -21,5 +21,5 @@ def callback():
 		user_data = app.services.frontdesk.get_user_info(access_token)
 		user = app.models.user.User(frontdesk_id=user_data['frontdesk_id'], name=user_data['name'], email=user_data['email'], access_token=access_token)
 		user.save()
-		return ('', 204)
+		return (user.serialize(), 204)
 	return ('', 404)

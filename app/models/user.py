@@ -10,7 +10,10 @@ class User(db.Document):
 	last_name = db.StringField()
 	address = db.StringField()
 	secondary_info_field = db.StringField()
-	birthdate = db.DateTimeField(),
+	birthdate = db.DateTimeField()
+
+	def serialize(self):
+		return self.to_json()
 
 
 #def create(**kwargs):
