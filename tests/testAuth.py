@@ -1,5 +1,6 @@
 #!flask/bin/python
 import app
+import json
 import unittest
 
 
@@ -17,6 +18,11 @@ class AuthTestCase(unittest.TestCase):
     def testSignOut(self):
         rv = self.app.post('/auth/sign_out')
         assert b'Sign Out' in rv.data
+
+    def testCallback(self):
+        rv = self.app.get('/auth/callback?code=toto')
+        parsed_data = json.loads(rv.data.decode("utf-8"))
+        assert parsed_data['token'] == 'abc123'
 
 if __name__ == '__main__':
     unittest.main()

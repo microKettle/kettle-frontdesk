@@ -1,5 +1,6 @@
-import app.models.User
+import app.models.user
 import flask
+import json
 
 module = flask.Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -23,6 +24,6 @@ def callback():
 		'email': 'foobar@mail.com',
 		'access_token': access_token
 	}
-	user = app.models.User.User(frontdesk_id=data['id'], name=data['name'], email=data['email'], access_token=access_token)
+	user = app.models.user.User(frontdesk_id=data['id'], name=data['name'], email=data['email'], access_token=access_token)
 	user.save()
-	return 'Token: ' + access_token
+	return json.dumps({'token': access_token})
