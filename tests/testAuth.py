@@ -1,5 +1,6 @@
 #!flask/bin/python
 import app
+import app.models.user
 import app.services.frontdesk
 import json
 import unittest
