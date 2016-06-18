@@ -9,6 +9,13 @@ MONGODB_SETTINGS = {
 	'host': os.environ.get('MONGODB_HOST', 'localhost')
 }
 
+FRONTDESK_SETTINGS = {
+	'URL_API': 'https://frontdeskhq.com/api/v2',
+	'CLIENT_ID': 'nMaOVbUKTKfYJXZva8ix2bpbRtDJMUIzT9BEwZXs',
+	'CLIENT_SECRET': 'p631IGbxHS8Phbcpo0LYyTRemNGrTlHSHx2pIU4C',
+	'REDIRECT_URL': 'http://kettle-1.kettle.50023ace.cont.dockerapp.io'
+}
+
 # Application threads. A common general assumption is
 # using 2 per available processor cores - to handle
 # incoming requests using one and performing background
