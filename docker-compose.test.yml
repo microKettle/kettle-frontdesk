@@ -1,3 +1,11 @@
 sut:
   build: .
   command: nosetests
+  environment:
+    - MONGODB_HOST=mongodb
+    - MONGODB_DATABASE=testing
+  links:
+    - mongodb
+mongodb:
+  image: tutum/mongodb
+    
