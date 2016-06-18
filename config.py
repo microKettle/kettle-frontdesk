@@ -10,7 +10,7 @@ MONGODB_SETTINGS = {
 }
 
 FRONTDESK_SETTINGS = {
-	'URL_AUTH': 'https://frontdeskhq.com',
+	'URL_AUTH': 'https://lutece.frontdeskhq.com/oauth',
 	'URL_API': 'https://lutece.frontdeskhq.com/api/v2',
 	'CLIENT_ID': 'nMaOVbUKTKfYJXZva8ix2bpbRtDJMUIzT9BEwZXs',
 	'CLIENT_SECRET': 'p631IGbxHS8Phbcpo0LYyTRemNGrTlHSHx2pIU4C',
