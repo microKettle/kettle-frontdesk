@@ -1,4 +1,5 @@
 import app.models.user
+import app.services.frontdesk
 import flask
 import json
 
@@ -15,15 +16,8 @@ def sign_out():
 @module.route('/callback', methods=['GET'])
 def callback():
 	temporary_token =  flask.request.args.get('code')
-	#then play the token to the frontdesk server and get access token
-	access_token = 'abc123'
-	#then play the access_token to get the informations on the user
-	data = {
-		'id': 1,
-		'name': 'Foo Bar',
-		'email': 'foobar@mail.com',
-		'access_token': access_token
-	}
-	user = app.models.user.User(frontdesk_id=data['id'], name=data['name'], email=data['email'], access_token=access_token)
+	access_token = app.services.frontdesk.get_access_token(temporary_token)
+	user_data = app.services.frontdesk.get_user_info(access_token)
+	user = app.models.user.User(frontdesk_id=user_data['frontdesk_id'], name=user_data['name'], email=user_data['email'], access_token=access_token)
 	user.save()
-	return json.dumps({'token': access_token})
+	return ('', 204)
