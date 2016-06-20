@@ -29,9 +29,9 @@ class AuthTestCase(unittest.TestCase):
     def testCallback(self, get_user_info, get_access_token):
         get_access_token.return_value = 'abc123'
         get_user_info.return_value = {
+            "id": 1,
             "name": "John Staff",
             "email": "johnstaff@example.com",
-            "frontdesk_id": 1,
             "first_name": "John",
             "middle_name": None,
             "last_name": "Staff",
