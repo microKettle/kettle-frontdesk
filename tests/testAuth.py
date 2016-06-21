@@ -26,7 +26,7 @@ class AuthTestCase(unittest.TestCase):
 
     @unittest.mock.patch('app.services.frontdesk.get_access_token')
     @unittest.mock.patch('app.services.frontdesk.get_user_info')
-    def testCallback(self, get_user_info, get_access_token):
+    def testCallbackSuccess(self, get_user_info, get_access_token):
         get_access_token.return_value = 'abc123'
         get_user_info.return_value = {
             "id": 1,
@@ -43,8 +43,35 @@ class AuthTestCase(unittest.TestCase):
         rv = self.app.get('/auth/callback?code=toto')
         assert rv.status_code == 204
         user = app.models.user.User.objects.get(frontdesk_id=1)
+        assert user.access_token == 'abc123'
         assert user.name == 'John Staff'
         assert user.email == "johnstaff@example.com"
+
+    @unittest.mock.patch('app.services.frontdesk.get_access_token')
+    @unittest.mock.patch('app.services.frontdesk.get_user_info')
+    def testCallBackUserAlreadyRegistered(self, get_user_info, get_access_token):        
+        get_access_token.return_value = 'def456'
+        get_user_info.return_value = {
+            "id": 1,
+            "name": "Jack Doe",
+            "email": "jackdoe@example.com",
+            "first_name": "Jack",
+            "middle_name": None,
+            "last_name": "Doe",
+            "address": "419 Guerrero Street, San Franciscp, CA 91114",
+            "secondary_info_field": "Unlimited Membership",
+            "birthdate": "1988-04-05"
+        }
+
+        user = app.models.user.User(frontdesk_id=1, name='John Staff', email='johnstaff@example.com', access_token='abc123')
+        user.save()
+        rv = self.app.get('/auth/callback?code=toto')
+        assert rv.status_code == 204
+
+        user = app.models.user.User.objects.get(frontdesk_id=1)
+        assert user.access_token == 'def456'
+        assert user.name == 'Jack Doe'
+        assert user.email == "jackdoe@example.com"
 
 
 if __name__ == '__main__':
