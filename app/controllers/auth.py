@@ -1,6 +1,8 @@
 import app.models.user
 import app.services.frontdesk
+import app.services.session
 import flask
+import bson.objectid
 import json
 
 module = flask.Blueprint('auth', __name__, url_prefix='/auth')
@@ -28,11 +30,15 @@ def callback():
 		user = app.models.user.User.objects.get(frontdesk_id=user_data['id'])
 	except app.models.user.User.DoesNotExist:
 		user = app.models.user.User(frontdesk_id=user_data['id'])
-	finally:
-		user.name = user_data['name']
-		user.email = user_data['email']
-		user.access_token = access_token
-		user.save()
 
-	##Create session token and return it alongside with the user
-	return (user.serialize(), 204)
+	user.name = user_data['name']
+	user.email = user_data['email']
+	user.access_token = access_token
+	user.save()
+
+	result_data = {
+		'user_id': str(user.id),
+		'session_token': app.services.session.create(user)
+	}
+	
+	return (json.dumps(result_data), 200)

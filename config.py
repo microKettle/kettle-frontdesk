@@ -14,8 +14,10 @@ FRONTDESK_SETTINGS = {
 	'URL_API': 'https://lutece.frontdeskhq.com/api/v2',
 	'CLIENT_ID': 'nMaOVbUKTKfYJXZva8ix2bpbRtDJMUIzT9BEwZXs',
 	'CLIENT_SECRET': 'p631IGbxHS8Phbcpo0LYyTRemNGrTlHSHx2pIU4C',
-	'REDIRECT_URL': 'http://kettle.ghnassia.com/auth/callback'
+	'REDIRECT_URL': 'http://kettle-dev.ghnassia.com:5000/auth/callback'
 }
+
+REDIS_URL = os.environ.get('REDIS_URL', 'redis://localhost')
 
 # Application threads. A common general assumption is
 # using 2 per available processor cores - to handle

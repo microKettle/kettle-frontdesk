@@ -2,15 +2,18 @@
 import app
 import app.models.user
 import app.services.frontdesk
+import flask.ext.redis
 import json
+import mockredis
 import unittest
 import unittest.mock
 
 
 class AuthTestCase(unittest.TestCase):
-
     def setUp(self):
         app.instance.config['TESTING'] = True
+        #app.redis = flask.ext.redis.FlaskRedis.from_custom_provider(mockredis.MockRedis)
+        #app.redis.init_app(app.instance)
         self.app = app.instance.test_client()
 
     def tearDown(self):
@@ -41,11 +44,13 @@ class AuthTestCase(unittest.TestCase):
         }
         
         rv = self.app.get('/auth/callback?code=toto')
-        assert rv.status_code == 204
+        assert rv.status_code == 200
         user = app.models.user.User.objects.get(frontdesk_id=1)
         assert user.access_token == 'abc123'
         assert user.name == 'John Staff'
         assert user.email == "johnstaff@example.com"
+        parsed_data = json.loads(rv.data.decode('utf-8'))
+        assert parsed_data['user_id'] == str(user.id)
 
     @unittest.mock.patch('app.services.frontdesk.get_access_token')
     @unittest.mock.patch('app.services.frontdesk.get_user_info')
@@ -66,7 +71,7 @@ class AuthTestCase(unittest.TestCase):
         user = app.models.user.User(frontdesk_id=1, name='John Staff', email='johnstaff@example.com', access_token='abc123')
         user.save()
         rv = self.app.get('/auth/callback?code=toto')
-        assert rv.status_code == 204
+        assert rv.status_code == 200
 
         user = app.models.user.User.objects.get(frontdesk_id=1)
         assert user.access_token == 'def456'
