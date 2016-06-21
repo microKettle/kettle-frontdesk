@@ -34,4 +34,5 @@ def callback():
 		user.access_token = access_token
 		user.save()
 
+	##Create session token and return it alongside with the user
 	return (user.serialize(), 204)
