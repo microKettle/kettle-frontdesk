@@ -73,6 +73,14 @@ class AuthTestCase(unittest.TestCase):
         assert user.name == 'Jack Doe'
         assert user.email == "jackdoe@example.com"
 
+    @unittest.mock.patch('app.services.frontdesk.get_access_token')
+    def testCallBackInvalidTemporaryCode(self, get_access_token):        
+        get_access_token.return_value = False
+        rv = self.app.get('/auth/callback?code=toto')
+        assert rv.status_code == 401
+
+if __name__ == '__main__':
+    unittest.main()
 
 if __name__ == '__main__':
     unittest.main()
