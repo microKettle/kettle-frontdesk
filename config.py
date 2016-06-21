@@ -13,7 +13,7 @@ FRONTDESK_SETTINGS = {
 	'URL_AUTH': 'https://lutece.frontdeskhq.com/oauth',
 	'URL_API': 'https://lutece.frontdeskhq.com/api/v2',
 	'CLIENT_ID': 'nMaOVbUKTKfYJXZva8ix2bpbRtDJMUIzT9BEwZXs',
-	'CLIENT_SECRET': 'p631IGbxHS8Phbcpo0LYyTRemNGrTlHSHx2pIU4C',
+	'CLIENT_SECRET': os.environ.get('FRONTDESK_CLIENT_SECRET'),
 	'REDIRECT_URL': 'http://kettle-dev.ghnassia.com:5000/auth/callback'
 }
 
