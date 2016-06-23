@@ -1,0 +1,91 @@
+# Example YAML to get you started quickly.
+# Be aware that YAML has indentation based scoping.
+# Code completion support is available so start typing for available options.
+swagger: '2.0'
+
+# This is your document metadata
+info:
+  version: "0.0.0"
+  title: <enter your title>
+
+# Describe your paths here
+paths:
+  /users/{userId}:
+    parameters:
+      - $ref: '#/parameters/userId'
+    get:
+      description: |
+        Gets `Users` objects.
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: user
+            type: object
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+              email:
+                 type: string
+              firstName:
+                 type: string
+              lastName:
+                 type: string
+              address:
+                 type: string
+              birthdate:
+                 type: string
+                 format: YYYY-mm-dd
+              frontdeskId: 
+                 type: string
+              frontdeskToken:
+                 type: string
+        404:
+          description: Not found
+  /users:
+    post:
+      description: |
+        Create a `User` object
+      parameters:
+        - name: user
+          description: 'user to create'
+          required: true
+          in: body
+          schema:
+            title: temporaryToken
+            type: string
+      responses:
+        201:
+          description: Resource succesfuly created
+          schema:
+            title: user
+            type: object
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+              email:
+                 type: string
+              firstName:
+                 type: string
+              lastName:
+                 type: string
+              address:
+                 type: string
+              birthdate:
+                 type: string
+                 format: YYYY-mm-dd
+              frontdeskId: 
+                 type: string
+        400:
+          description: temporaryToken is invalid or expired
+  
+parameters:
+  userId: 
+    name: userId
+    in: path
+    type: integer
+    required: true
