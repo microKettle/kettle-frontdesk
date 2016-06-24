@@ -16,5 +16,5 @@ instance.config.from_object('config')
 db.init_app(instance)
 redis.init_app(instance)
 
-import app.controllers.auth
-instance.register_blueprint(app.controllers.auth.module)
+import app.controllers.user
+instance.register_blueprint(app.controllers.user.module)

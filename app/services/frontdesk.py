@@ -8,7 +8,7 @@ def get_access_token(temporary_token):
 	if (response.status == 200):
 		parsed_data = json.loads(response.data.decode('utf-8'))
 		return parsed_data['access_token']
-	return response.data
+	return False
 
 def get_user_info(access_token):
 	http = urllib3.PoolManager()
@@ -17,5 +17,14 @@ def get_user_info(access_token):
 	if (response.status == 200):
 		parsed_data = json.loads(response.data.decode('utf-8'))
 		user_data = parsed_data['people'][0]
-		return user_data
+		return {
+			'name': user_data['name'],
+			'email': user_data['email'],
+			'firstName': user_data['first_name'],
+			'middleName': user_data['middle_name'],
+			'lastName': user_data['last_name'],
+			'address': user_data['address'],
+			'birthdate': user_data['birthdate'],
+			'frontdeskId': user_data['id']
+		}
 	return False 
