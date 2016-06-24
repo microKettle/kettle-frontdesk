@@ -82,6 +82,8 @@ paths:
                  type: string
         400:
           description: temporaryToken is invalid or expired
+        422:
+          description: Request malformed
   
 parameters:
   userId: 
