@@ -4,11 +4,7 @@ sut:
   environment:
     - MONGODB_HOST=mongodb
     - MONGODB_DATABASE=testing
-    - REDIS_URL=redis://redis
   links:
     - mongodb
-    - redis
 mongodb:
-  image: mongo:3.3 
-redis:
-  image: redis:2.8
+  image: mongo:3.3
