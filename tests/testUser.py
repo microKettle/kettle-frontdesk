@@ -7,7 +7,7 @@ import unittest
 import unittest.mock
 
 
-class AuthTestCase(unittest.TestCase):
+class UserTestCase(unittest.TestCase):
     def setUp(self):
         app.instance.config['TESTING'] = True
         self.app = app.instance.test_client()
@@ -19,6 +19,7 @@ class AuthTestCase(unittest.TestCase):
 
     def testUserReadSuccess(self):
         user = app.models.user.User.create({
+            'id': 12,
             'name': 'John Staff', 
             'email': 'johnstaff@example.com', 
             'firstName': 'John', 
@@ -28,10 +29,11 @@ class AuthTestCase(unittest.TestCase):
             'frontdeskId': 1, 
             'frontdeskToken': 'abc123'
         })
-        response = self.app.get('/v1/users/' + str(user.resource_id));
+        response = self.app.get('/users/12');
+        print(response.status_code)
         assert response.status_code == 200
         data = json.loads(response.data.decode('utf-8'));
-        assert 'id' in data['user']
+        assert data['user']['id'] == 12
         assert data['user']['name'] == 'John Staff'
         assert data['user']['email'] == 'johnstaff@example.com'
         assert data['user']['firstName'] == 'John'
@@ -64,12 +66,14 @@ class AuthTestCase(unittest.TestCase):
 
         payload = {
            'user': {
+                'id': 12,
                 'temporaryToken': 'axyz789'
            }
         }
-        response = self.app.post('/v1/users', data=json.dumps(payload));
-        user = app.models.user.User.objects.get(frontdeskId=1)
+        response = self.app.post('/users', data=json.dumps(payload));
+        user = app.models.user.User.get_by_id(12)
         assert response.status_code == 201
+        assert user.frontdeskId == 1
         assert user.name == get_user_info.return_value['name']
         assert user.address == get_user_info.return_value['address']
 
@@ -79,10 +83,11 @@ class AuthTestCase(unittest.TestCase):
         
         payload = {
            'user': {
+                'id': 12,
                 'temporaryToken': 'axyz789'
            }
         }
-        response = self.app.post('/v1/users', data=json.dumps(payload));
+        response = self.app.post('/users', data=json.dumps(payload));
         assert response.status_code == 400
 
     @unittest.mock.patch('app.services.frontdesk.get_access_token')
@@ -113,11 +118,13 @@ class AuthTestCase(unittest.TestCase):
 
         payload = {
            'user': {
+                'id': 12,
                 'temporaryToken': 'axyz789'
            }
         }
 
         user = app.models.user.User.create({
+            'id': 7,
             'name': 'John Staff', 
             'email': 'johnstaff@example.com', 
             'firstName': 'John', 
@@ -129,11 +136,10 @@ class AuthTestCase(unittest.TestCase):
         })
 
         response = response = self.app.post('/users', data=json.dumps(payload));
-        user = app.models.user.User.find_by('frontdeskId', get_user_info.return_value['frontdeskId'])
-        assert response.status_code == 201
-        assert user.frontdeskToken ==  get_access_token.return_value
-        assert user.name == get_user_info.return_value['name']
-        assert user.email == get_user_info.return_value['email']
+        assert response.status_code == 409
+
+        users = app.models.user.User.objects(frontdeskId=get_user_info.return_value['frontdeskId'])
+        assert len(users) == 1
 
 
 if __name__ == '__main__':

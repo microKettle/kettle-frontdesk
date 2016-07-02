@@ -14,4 +14,6 @@ instance.config.from_object('config')
 db.init_app(instance)
 
 import app.controllers.user
+import app.controllers.event
 instance.register_blueprint(app.controllers.user.module)
+instance.register_blueprint(app.controllers.event.module)

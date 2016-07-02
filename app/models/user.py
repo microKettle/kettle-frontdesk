@@ -2,7 +2,7 @@ import app
 import json
 
 class User(app.db.Document):
-	resource_id = app.db.SequenceField(collection_name="user.counter")
+	resource_id = app.db.IntField()
 	name = app.db.StringField(required=True)
 	email = app.db.EmailField(required=True)
 	firstName = app.db.StringField()
@@ -15,6 +15,8 @@ class User(app.db.Document):
 
 	def update(self, attributes):
 		for (key, value) in attributes.items():
+			if key == 'id':
+				key = 'resource_id'
 			self.__setattr__(key, value)
 		self.save()
 
@@ -29,6 +31,10 @@ class User(app.db.Document):
 
 	@staticmethod
 	def create(attributes):
+		if 'id' in attributes:
+			attributes['resource_id'] = attributes['id']
+			attributes.pop('id', None)
+
 		user = User(**attributes)
 		user.save()
 		return User.get_by_id(user.resource_id)
@@ -39,6 +45,8 @@ class User(app.db.Document):
 
 	@staticmethod
 	def find_by(key, value):
-		return User.objects.get(**params = {
+		params = {
 			key: value
-		})
+		}
+
+		return User.objects.get(**params);

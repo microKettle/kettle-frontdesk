@@ -54,8 +54,7 @@ paths:
           required: true
           in: body
           schema:
-            title: temporaryToken
-            type: string
+           $ref: '#/definitions/user'
       responses:
         201:
           description: Resource succesfuly created
@@ -91,3 +90,17 @@ parameters:
     in: path
     type: integer
     required: true
+    
+definitions:
+  user:
+    description: User object
+    properties:
+      id:
+        type: integer
+        description: userId from the api
+      temporaryToken:
+        type: string
+        description: frontdesk temporary token
+    required:
+      - id
+      - temporaryToken

@@ -27,4 +27,24 @@ def get_user_info(access_token):
 			'birthdate': user_data['birthdate'],
 			'frontdeskId': user_data['id']
 		}
-	return False 
+	return False
+
+def get_event_info(event_id, access_token):
+	http = urllib3.PoolManager()
+	headers = {'Authorization': 'Bearer ' + access_token}
+	response = http.request('GET', app.instance.config['FRONTDESK_SETTINGS']['URL_API'] + '/front/event_occurrences/{}'.format(event_id), headers=headers)
+	if (response.status == 200):
+		parsed_data = json.loads(response.data.decode('utf-8'))
+		event_data = parsed_data['event_occurences'][0]
+		return event_data
+	return False
+
+def get_event_eligibility(event_id, access_token):
+	http = urllib3.PoolManager()
+	headers = {'Authorization': 'Bearer ' + access_token}
+	response = http.request('GET', app.instance.config['FRONTDESK_SETTINGS']['URL_API'] + '/front/event_occurrence/{}/enrollment_eligibilities'.format(event_id), headers=headers)
+	if (response.status == 200):
+		parsed_data = json.loads(response.data.decode('utf-8'))
+		eligibility_data = parsed_data['enrollment_eligibilities'][0]
+		return eligibility_data
+	return False
