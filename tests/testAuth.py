@@ -28,7 +28,7 @@ class AuthTestCase(unittest.TestCase):
             'frontdeskId': 1, 
             'frontdeskToken': 'abc123'
         })
-        response = self.app.get('/users/' + str(user.resource_id));
+        response = self.app.get('/v1/users/' + str(user.resource_id));
         assert response.status_code == 200
         data = json.loads(response.data.decode('utf-8'));
         assert 'id' in data['user']
@@ -67,7 +67,7 @@ class AuthTestCase(unittest.TestCase):
                 'temporaryToken': 'axyz789'
            }
         }
-        response = self.app.post('/users', data=json.dumps(payload));
+        response = self.app.post('/v1/users', data=json.dumps(payload));
         user = app.models.user.User.objects.get(frontdeskId=1)
         assert response.status_code == 201
         assert user.name == get_user_info.return_value['name']
@@ -76,13 +76,13 @@ class AuthTestCase(unittest.TestCase):
     @unittest.mock.patch('app.services.frontdesk.get_access_token')
     def testUserCreateInvalidTemporaryToken(self, get_access_token):
         get_access_token.return_value = False
-
+        
         payload = {
            'user': {
                 'temporaryToken': 'axyz789'
            }
         }
-        response = self.app.post('/users', data=json.dumps(payload));
+        response = self.app.post('/v1/users', data=json.dumps(payload));
         assert response.status_code == 400
 
     @unittest.mock.patch('app.services.frontdesk.get_access_token')
