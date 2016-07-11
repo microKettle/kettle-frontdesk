@@ -39,6 +39,16 @@ def get_event_info(event_id, access_token):
 		return event_data
 	return False
 
+def get_event_list(access_token):
+	http = urllib3.PoolManager()
+	headers = {'Authorization': 'Bearer ' + access_token}
+	response = http.request('GET', app.instance.config['FRONTDESK_SETTINGS']['URL_API'] + '/front/event_occurrences', headers=headers)
+	if (response.status == 200):
+		parsed_data = json.loads(response.data.decode('utf-8'))
+		events_data = parsed_data['event_occurences']
+		return events_data
+	return False
+
 def get_event_eligibility(event_id, access_token):
 	http = urllib3.PoolManager()
 	headers = {'Authorization': 'Bearer ' + access_token}

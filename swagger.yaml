@@ -81,9 +81,11 @@ paths:
                  type: string
         400:
           description: temporaryToken is invalid or expired
+        409:
+          description: resource already exists
         422:
           description: Request malformed
-  
+          
 parameters:
   userId: 
     name: userId

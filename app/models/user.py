@@ -1,7 +1,8 @@
 import app
+import app.models.base
 import json
 
-class User(app.db.Document):
+class User(app.models.base.Base, app.db.Document):
 	resource_id = app.db.IntField()
 	name = app.db.StringField(required=True)
 	email = app.db.EmailField(required=True)
